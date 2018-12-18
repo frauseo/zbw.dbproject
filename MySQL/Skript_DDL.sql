@@ -1,3 +1,5 @@
+-- Test von ronny
+
 DROP DATABASE IF EXISTS inventarisierungsloesung;
 
 CREATE DATABASE IF NOT EXISTS Inventarisierungsloesung
