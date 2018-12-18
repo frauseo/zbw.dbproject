@@ -1,0 +1,7 @@
+﻿POD-Statistik 						-> Ronny Wyss
+Finden von freien Netzwerkinterfaces im Device 		-> Francesco Frauseo
+Logging 						-> Patrick Keist
+Schnittstelle zu bestehendem Gerätemanagement-Tool 	-> Francesco Frauseo
+Automatisierte Fakturierung 				-> Larissa Fitze
+Manuelle Fakturierung 					-> Larissa Fitze
+Berechtigungskonzept 					-> Ronny Wyss
