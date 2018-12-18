@@ -5,3 +5,4 @@ Schnittstelle zu bestehendem Gerätemanagement-Tool 	-> Francesco Frauseo
 Automatisierte Fakturierung 				-> Larissa Fitze
 Manuelle Fakturierung 					-> Larissa Fitze
 Berechtigungskonzept 					-> Ronny Wyss
+Test
