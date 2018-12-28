@@ -1,0 +1,17 @@
+//Erweiterung Abrechnung 
+ALTER TABLE abrechnung
+	ADD date TIMESTAMP DEFAULT NOW();
+	
+ALTER TABLE abrechnung
+	ADD isFakturiert bool DEFAULT false;
+	
+
+//neue Tabelle Rechnung_kunde
+CREATE TABLE rechnung_kunde
+(
+	rgId INT AUTO_INCREMENT PRIMARY KEY,
+    fkAbrechnung INT UNSIGNED ,
+    FOREIGN KEY (fkAbrechnung) REFERENCES abrechnung(abrechnung_id) ON DELETE CASCADE
+);
+	
+	

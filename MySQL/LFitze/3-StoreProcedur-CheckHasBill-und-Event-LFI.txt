@@ -1,0 +1,42 @@
+DELIMITER //
+CREATE EVENT IF NOT EXISTS create_rg_kunde
+	ON SCHEDULE EVERY DAY 
+    
+    DO
+        CALL CheckHasBillProcedure();
+    ;
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE CheckHasBillProcedure
+(
+	
+)
+
+BEGIN
+	DECLARE currentID INT;
+    DECLARE hasNext BOOL DEFAULT TRUE;
+
+	DECLARE myRows CURSOR FOR 
+			SELECT  abrechnung_id From abrechnung
+			WHERE isFakturiert = 0 
+			GROUP BY kundenkonto_fk, date
+			HAVING SUM(betrag) > 100 OR (datediff(now(), abrechnung.date) > 90);
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND 
+    SET hasNext = false;
+    
+    OPEN myRows;
+    
+    processingLoop : LOOP
+		FETCH myRows INTO currentId;
+        IF hasNExt = FALSE THEN
+        LEAVE processingLoop;
+        END IF;
+         CALL PodBill(currentId);
+			
+            END LOOP;
+
+END //
+DELIMITER ;

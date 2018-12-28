@@ -1,0 +1,40 @@
+//Store Procedure PodBill
+
+DELIMITER //
+CREATE PROCEDURE PodBill
+(
+	_abrechnungsId INT
+)
+
+BEGIN
+	
+    IF EXISTS(SELECT isFakturiert FROM abrechnung WHERE abrechnung_id = _abrechnungsId AND isFakturiert = 1) THEN
+		SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'Fehler: Bestellung bereits verrechnet';
+	END IF;
+    
+	INSERT INTO rechnung_kunde(fkAbrechnung)
+	VALUE(_abrechnungsId);
+     
+END //
+DELIMITER ;
+
+
+//trigger wo 0 zu 1 macht! 
+
+DELIMITER //
+CREATE TRIGGER tr_createRgKunde_after
+	AFTER INSERT
+    ON rechnung_kunde
+    FOR EACH ROW
+
+BEGIN
+	UPDATE abrechnung
+		SET isFakturiert = 1
+        WHERE abrechnung_id = new.fkAbrechnung
+        ;
+  
+END //
+DELIMITER ; 
+
+    
