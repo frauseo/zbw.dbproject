@@ -1,5 +1,3 @@
--- Test von ronny
-
 DROP DATABASE IF EXISTS inventarisierungsloesung;
 
 CREATE DATABASE IF NOT EXISTS Inventarisierungsloesung
@@ -58,7 +56,6 @@ priority ENUM('First Priority','Second Priority','Emergency Contact') NOT NULL,
 FOREIGN KEY (person_fk) REFERENCES Person(person_id)ON DELETE CASCADE
 );
 
-
 CREATE TABLE IF NOT EXISTS PointOfDelivery (
 pod_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 customer_person_fk INT UNSIGNED NOT NULL,
@@ -73,25 +70,25 @@ FOREIGN KEY (`contact_person_fk`) REFERENCES `contact`(`contact_id`)ON DELETE CA
 FOREIGN KEY (`location_fk`) REFERENCES `location`(`location_id`) ON DELETE CASCADE
 );
 
-CREATE Table IF NOT EXISTS DevicesTypes (
-deviceTypes_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-manifacture VARCHAR(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS DeviceType (
+deviceType_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+manifacturer VARCHAR(255) NOT NULL,
 model VARCHAR(255) NOT NULL,
-version VARCHAR(255) NOT NULL,
-PRIMARY KEY(deviceTypes_id)
+version VARCHAR(255) NULL,
+PRIMARY KEY (deviceType_id)
 );
 
-CREATE Table IF NOT EXISTS Devices (
-device_id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+CREATE Table IF NOT EXISTS Device (
+device_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 location_fk INT UNSIGNED NOT NULL,
-deviceTypes_fk INT UNSIGNED NOT NULL,
+deviceType_fk INT UNSIGNED NOT NULL,
 inventoryDate DATE NOT NULL,
 deactivateDate DATE NOT NULL,
 hostname VARCHAR(255),
 domain VARCHAR(255),
 description VARCHAR(255),
-FOREIGN KEY (location_fk) REFERENCES Location(location_id) ON DELETE CASCADE,
-FOREIGN KEY (deviceTypes_fk) REFERENCES DevicesTypes(deviceTypes_id) ON DELETE CASCADE
+FOREIGN KEY (location_fk) REFERENCES location (location_id) ON DELETE CASCADE,
+FOREIGN KEY (deviceType_fk) REFERENCES devicetype (deviceType_id) ON DELETE CASCADE
 );
 
 CREATE Table IF NOT EXISTS Operatingsystem (
@@ -101,12 +98,49 @@ model VARCHAR(255) NOT NULL,
 version VARCHAR(255)
 );
 
-CREATE Table IF NOT EXISTS DevicesTypes_has_operatingsystem (
-deviceTypes_fk INT UNSIGNED NOT NULL,
+CREATE Table IF NOT EXISTS DeviceType_has_operatingsystem (
+deviceType_fk INT UNSIGNED NOT NULL,
 operatingsystem_fk INT UNSIGNED NOT NULL,
-PRIMARY KEY(deviceTypes_fk,operatingsystem_fk),
-FOREIGN KEY (deviceTypes_fk) REFERENCES DevicesTypes(deviceTypes_id) ON DELETE CASCADE,
-FOREIGN KEY (operatingsystem_fk) REFERENCES Operatingsystem(operatingsystem_id) ON DELETE CASCADE
+PRIMARY KEY(deviceType_fk,operatingsystem_fk),
+FOREIGN KEY (deviceType_fk) REFERENCES DeviceType (deviceType_id) ON DELETE CASCADE,
+FOREIGN KEY (operatingsystem_fk) REFERENCES Operatingsystem (operatingsystem_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Network (
+network_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+subnet VARCHAR(15) NOT NULL,
+mask VARCHAR(15) NOT NULL,
+vlan INT NOT NULL DEFAULT 1,
+description VARCHAR(255) NULL
+);
+
+CREATE TABLE IF NOT EXISTS Interface (
+interface_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+network_fk INT NOT NULL,
+device_fk INT UNSIGNED NOT NULL,
+ip_adress_v4 VARCHAR(15) NOT NULL,
+mac_adresse VARCHAR(17) NOT NULL,
+isFullDuplex BIT(1) NOT NULL DEFAULT 1,
+bandwith INT NULL,
+description VARCHAR(255) NULL,
+FOREIGN KEY (network_fk) REFERENCES Network (network_id)ON DELETE CASCADE,
+FOREIGN KEY (device_fk) REFERENCES Device (device_id)ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Medium (
+medium_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+description VARCHAR(45) NOT NULL,
+device_fk INT UNSIGNED NOT NULL,
+FOREIGN KEY (device_fk) REFERENCES Device (device_id)ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Port (
+port_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+description VARCHAR(45) NOT NULL,
+device_fk INT UNSIGNED NOT NULL,
+medium_fk INT UNSIGNED NOT NULL,
+FOREIGN KEY (device_fk) REFERENCES Device (device_id)ON DELETE CASCADE,
+FOREIGN KEY (Medium_fk) REFERENCES Medium (medium_id)ON DELETE CASCADE
 );
 
 CREATE Table IF NOT EXISTS Log (
@@ -115,90 +149,60 @@ device_fk INT UNSIGNED NOT NULL,
 timestamp DATETIME NOT NULL,
 logMessage VARCHAR(255) NOT NULL,
 level ENUM('Low','Middle','High') NOT NULL,
-FOREIGN KEY (device_fk) REFERENCES Devices(device_id) ON DELETE CASCADE
+FOREIGN KEY (device_fk) REFERENCES Device(device_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS Network (
-  network_id INT NOT NULL AUTO_INCREMENT,
-  subnet VARCHAR(15) NOT NULL,
-  mask VARCHAR(15) NOT NULL,
-  vlan INT NOT NULL DEFAULT 1,
-  description VARCHAR(255) NULL,
-  PRIMARY KEY (network_id));
-
-CREATE TABLE IF NOT EXISTS DeviceTypes (
-  deviceTypes_id INT NOT NULL AUTO_INCREMENT,
-  manifacturer VARCHAR(255) NOT NULL,
-  model VARCHAR(255) NOT NULL,
-  version VARCHAR(255) NULL,
-  PRIMARY KEY (deviceTypes_id)
-  );
-
-
 CREATE TABLE IF NOT EXISTS Credentials (
-  credentials_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  benutzername VARCHAR(255) NOT NULL,
-  passwort VARCHAR(255) NOT NULL,
-  snmp VARCHAR(255) NOT NULL,
-  PRIMARY KEY (credentials_id) 
-  );
-  
-CREATE TABLE IF NOT EXISTS Interfaces (
-  interface_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  network_id_fk INT NOT NULL,
-  devices_id_fk INT UNSIGNED NOT NULL,
-  ip_adress_v4 VARCHAR(15) NOT NULL,
-  isFullDuplex BIT(1) NOT NULL DEFAULT 1,
-  bandwith INT NULL,
-  description VARCHAR(255) NULL,
-  PRIMARY KEY (interface_id),
-  FOREIGN KEY (network_id_fk) REFERENCES Network (network_id)ON DELETE CASCADE,
-  FOREIGN KEY (devices_id_fk) REFERENCES Devices (device_id)ON DELETE CASCADE
-  );
+credentials_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+benutzername VARCHAR(255) NOT NULL,
+passwort VARCHAR(255) NOT NULL,
+snmp VARCHAR(255) NOT NULL,
+PRIMARY KEY (credentials_id) 
+);
 
-  CREATE TABLE IF NOT EXISTS Abrechnung (
-  abrechnung_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  kundenkonto_fk INT UNSIGNED NOT NULL,
-  location_fk INT UNSIGNED NOT NULL,
-  device_fk INT UNSIGNED NOT NULL,
-  interface_fk INT UNSIGNED NOT NULL,
-  PRIMARY KEY (abrechnung_id),
-  FOREIGN KEY (kundenkonto_fk) REFERENCES Kundenkonto (kundenkonto_id)ON DELETE CASCADE,
-  FOREIGN KEY (location_fk) REFERENCES Location (location_id)ON DELETE CASCADE,
-  FOREIGN KEY (device_fk) REFERENCES Devices (device_id)ON DELETE CASCADE,
-  FOREIGN KEY (interface_fk) REFERENCES Interfaces (interface_id)ON DELETE CASCADE
-  );
-  
+CREATE TABLE IF NOT EXISTS Abrechnung (
+abrechnung_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+kundenkonto_fk INT UNSIGNED NOT NULL,
+location_fk INT UNSIGNED NOT NULL,
+device_fk INT UNSIGNED NOT NULL,
+interface_fk INT UNSIGNED NOT NULL,
+PRIMARY KEY (abrechnung_id),
+FOREIGN KEY (kundenkonto_fk) REFERENCES Kundenkonto (kundenkonto_id)ON DELETE CASCADE,
+FOREIGN KEY (location_fk) REFERENCES Location (location_id)ON DELETE CASCADE,
+FOREIGN KEY (device_fk) REFERENCES Device (device_id)ON DELETE CASCADE,
+FOREIGN KEY (interface_fk) REFERENCES Interface (interface_id)ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS SoftwareDienstleistung (
-  software_id INT NOT NULL AUTO_INCREMENT,
-  stundenaufwand INT NOT NULL,
-  abrechung_fk INT UNSIGNED NOT NULL,
-  PRIMARY KEY (software_id),
-  Foreign Key (abrechung_fk) REFERENCES Abrechnung(abrechnung_id) ON DELETE CASCADE);
-  
-CREATE TABLE IF NOT EXISTS Produktegruppe (
-  produktegruppe_id INT NOT NULL AUTO_INCREMENT,
-  hardware VARCHAR(255),
-  software VARCHAR(255),
-  sonstigeArtikel VARCHAR(255),
-  abrechung_fk INT UNSIGNED NOT NULL,
-  PRIMARY KEY (produktegruppe_id),
-  Foreign Key (abrechung_fk) REFERENCES Abrechnung(abrechnung_id)ON DELETE CASCADE
-  );
-  
-CREATE TABLE IF NOT EXISTS Produkte (
-  artikelnummer_id INT NOT NULL AUTO_INCREMENT,
-  artikelname VARCHAR(255) NOT NULL,
-  preis FLOAT NOT NULL,
-  produktegruppe_fk INT NOT NULL,
-  PRIMARY KEY (artikelnummer_id),
-  Foreign Key (produktegruppe_fk) REFERENCES Produktegruppe(produktegruppe_id)ON DELETE CASCADE
-  );
+software_id INT NOT NULL AUTO_INCREMENT,
+stundenaufwand INT NOT NULL,
+abrechung_fk INT UNSIGNED NOT NULL,
+PRIMARY KEY (software_id),
+Foreign Key (abrechung_fk) REFERENCES Abrechnung(abrechnung_id) ON DELETE CASCADE);
 
-  CREATE TABLE IF NOT EXISTS Devices_has_Credentials (
-  devices_devices_id INT UNSIGNED NOT NULL,
-  credentials_credentials_id INT UNSIGNED NOT NULL,
-  PRIMARY KEY (devices_devices_id, credentials_credentials_id),
-  FOREIGN KEY (devices_devices_id) REFERENCES Devices (device_id) ON DELETE CASCADE,
-  FOREIGN KEY (credentials_credentials_id) REFERENCES Credentials (credentials_id) ON DELETE CASCADE
-  ); 
+CREATE TABLE IF NOT EXISTS Produktegruppe (
+produktegruppe_id INT NOT NULL AUTO_INCREMENT,
+hardware VARCHAR(255),
+software VARCHAR(255),
+sonstigeArtikel VARCHAR(255),
+abrechung_fk INT UNSIGNED NOT NULL,
+PRIMARY KEY (produktegruppe_id),
+Foreign Key (abrechung_fk) REFERENCES Abrechnung(abrechnung_id)ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Produkte (
+artikelnummer_id INT NOT NULL AUTO_INCREMENT,
+artikelname VARCHAR(255) NOT NULL,
+preis FLOAT NOT NULL,
+produktegruppe_fk INT NOT NULL,
+PRIMARY KEY (artikelnummer_id),
+Foreign Key (produktegruppe_fk) REFERENCES Produktegruppe(produktegruppe_id)ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Devices_has_Credentials (
+devices_devices_id INT UNSIGNED NOT NULL,
+credentials_credentials_id INT UNSIGNED NOT NULL,
+PRIMARY KEY (devices_devices_id, credentials_credentials_id),
+FOREIGN KEY (devices_devices_id) REFERENCES Device (device_id) ON DELETE CASCADE,
+FOREIGN KEY (credentials_credentials_id) REFERENCES Credentials (credentials_id) ON DELETE CASCADE
+); 
