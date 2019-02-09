@@ -205,3 +205,13 @@ PRIMARY KEY (devices_devices_id, credentials_credentials_id),
 FOREIGN KEY (devices_devices_id) REFERENCES Device (device_id) ON DELETE CASCADE,
 FOREIGN KEY (credentials_credentials_id) REFERENCES Credentials (credentials_id) ON DELETE CASCADE
 ); 
+
+CREATE TABLE IF NOT EXISTS v_logentries (
+logentrie_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+pod VARCHAR(1000),
+location VARCHAR(1000)
+hostname VARCHAR(45),
+severity INT,
+timestamp TIMESTAMP;
+message VARCHAR(1000)
+);
