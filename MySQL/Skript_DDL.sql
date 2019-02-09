@@ -148,6 +148,7 @@ device_fk INT UNSIGNED NOT NULL,
 timestamp DATETIME NOT NULL,
 logMessage VARCHAR(255) NOT NULL,
 level ENUM('Low','Middle','High') NOT NULL,
+is_acknowledged TINYINT,
 FOREIGN KEY (device_fk) REFERENCES Device(device_id) ON DELETE CASCADE
 );
 
@@ -207,7 +208,7 @@ FOREIGN KEY (credentials_credentials_id) REFERENCES Credentials (credentials_id)
 ); 
 
 CREATE TABLE IF NOT EXISTS v_logentries (
-logentrie_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+v_logentries_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 pod VARCHAR(1000),
 location VARCHAR(1000)
 hostname VARCHAR(45),
@@ -215,3 +216,46 @@ severity INT,
 timestamp TIMESTAMP;
 message VARCHAR(1000)
 );
+
+
+# Stored Procedure bereinigung der quittierte Logs
+
+DELIMITER //
+CREATE PROCEDURE LogClear 
+(
+	IN _logentries_id INT
+)
+
+BEGIN
+	
+	DELETE FROM v_logentries
+    WHERE _logentreies_id = logentrie_id;
+    
+    UPDATE Log
+    SET is_acknowledged = 1
+    WHERE log_is = _logentries_id;
+	
+END //
+DELIMITER ;
+
+# View für das anzeigen nicht belegter Interfaces
+CREATE VIEW
+	view_freiesInterface (LocationName, Hostname, Portnummer, Medium, Geschwindigkeit)
+    AS
+		SELECT 
+			CONCAT_WS(building, room),
+            device.hostname,
+            deviceport.description,
+            transportmedium.description,
+            bandwith
+		FROM
+			device INNER JOIN location 
+				ON location_fk=location_id
+			INNER JOIN deviceport
+				ON device_fk = device_id
+			INNER JOIN transportmedium
+				ON device_fk = device_id
+			INNER JOIN interface
+				ON interface.device_fk = device_id
+		WHERE interface.is_in_use = 0
+;

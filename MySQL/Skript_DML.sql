@@ -124,12 +124,12 @@ VALUES
 (4,3),
 (5,1);
 
-INSERT INTO Log (logMessage, timestamp, level, device_fk)
+INSERT INTO Log (logMessage, timestamp, level, is_acknowledged, device_fk)
 VALUES
-('Loged In',now(),'Low',1),
-('Loged Out',now(),'Low',1),
-('Loged In',now(),'Low',2),
-('Virus detected',now(),'High',3)
+('Loged In',now(),'Low',0,1),
+('Loged Out',now(),'Low'0,,1),
+('Loged In',now(),'Low'0,,2),
+('Virus detected',now(),'High'0,,3)
 ;
 
 INSERT INTO Abrechnung (kundenkonto_fk, location_fk, device_fk, interface_fk)
