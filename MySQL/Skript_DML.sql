@@ -68,7 +68,7 @@ VALUES
 (4,'192.168.1.0','255.255.255.0',1,'Labor'),
 (5,'192.168.128.0','255.255.255.127',1,'Integration');
 
-INSERT INTO DevicesTypes(manifacture, model, version)
+INSERT INTO DeviceType (manufacturer, model, version)
 VALUES
 ('Cisco','Router',''),
 ('Avaya','PBX',''),
@@ -77,7 +77,7 @@ VALUES
 ('Cisco','FireWall','');
 
 
-INSERT INTO Devices (location_fk, deviceTypes_fk, inventoryDate, deactivateDate, hostname, domain, description)
+INSERT INTO Device (location_fk, deviceType_fk, inventoryDate, deactivateDate, hostname, domain, description)
 VALUES
 (1,1,'2018-12-31','2019-12-31','CiscoR1','ch.zbw','Keller'),
 (1,1,'2007-10-29','2008-10-29','CSTA003','ch.zbw','OG6'),
@@ -85,13 +85,28 @@ VALUES
 (3,1,'2018-06-06','2019-02-12','CiscoR006','ch.scs','Keller'),
 (1,1,'2018-02-01','2020-12-02','Cisco-PRT-032','ch.zbw','Kantine');
 
-INSERT INTO Interfaces (interface_id, network_id_fk, devices_id_fk, ip_adress_v4, isFullDuplex, bandwith, description)
+INSERT INTO Deviceport (description, device_fk, transportmedium_fk)
 VALUES
-(1,3,1,'172.129.1.5',1,10000,''),
-(2,3,4,'172.129.1.6',1,10000,''),
-(3,1,5,'10.36.0.253',1,10000,''),
-(4,5,4,'192.168.128.192',1,10000,''),
-(5,3,3,'172.129.5.9',1,100,'');
+('GigabitEthernet 0/1', 1, 0),
+('FastEtherne 0/1', 2, 1),
+('FastEtherne 0/1', 2, 1),
+('Etherne 0/1', 4, 2),
+('FastEtherne 0/1', 2, 1);
+
+INSERT INTO Interface (interface_id, network_fk, device_fk, ip_adress_v4, mac_adresse, isFullDuplex, bandwith, is_in_use, description)
+VALUES
+(1,3,1,'172.129.1.5','0025:96FF:FE12:3456',1,10000,0,''),
+(2,3,4,'172.129.1.6','0025:96FF:FE12:3457',1,10000,0,''),
+(3,1,5,'10.36.0.253','0025:96FF:FE12:3458',1,10000,0,''),
+(4,5,4,'192.168.128.192','0025:96FF:FE12:3459',1,10000,0,''),
+(5,3,3,'172.129.5.9','0025:96FF:FE12:3455',1,100,0,'');
+
+INSERT INTO Transportmedium (description)
+VALUES
+('LWL'),
+('RJ45'),
+('RJ11'),
+('COM');
 
 INSERT INTO operatingsystem (operatingsystem_id, operatingsystemName, model, version)
 VALUES
