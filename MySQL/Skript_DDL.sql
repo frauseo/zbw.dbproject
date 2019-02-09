@@ -122,6 +122,7 @@ ip_adress_v4 VARCHAR(15) NOT NULL,
 mac_adresse VARCHAR(17) NOT NULL,
 isFullDuplex BIT(1) NOT NULL DEFAULT 1,
 bandwith INT NULL,
+is_in_use TINYINT,
 description VARCHAR(255) NULL,
 FOREIGN KEY (network_fk) REFERENCES Network (network_id)ON DELETE CASCADE,
 FOREIGN KEY (device_fk) REFERENCES Device (device_id)ON DELETE CASCADE
