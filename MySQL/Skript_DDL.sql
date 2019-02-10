@@ -210,10 +210,10 @@ FOREIGN KEY (credentials_credentials_id) REFERENCES Credentials (credentials_id)
 CREATE TABLE IF NOT EXISTS v_logentries (
 v_logentries_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 pod VARCHAR(1000),
-location VARCHAR(1000)
+location VARCHAR(1000),
 hostname VARCHAR(45),
 severity INT,
-timestamp TIMESTAMP;
+timestamp TIMESTAMP,
 message VARCHAR(1000)
 );
 
@@ -235,6 +235,23 @@ BEGIN
     SET is_acknowledged = 1
     WHERE log_is = _logentries_id;
 	
+END //
+DELIMITER ;
+
+# Stored Procedure für schreiben der Logs Anhand der Inputparameter
+
+DELIMITER //
+CREATE PROCEDURE LogMessageAdd
+(
+	IN device_id INT, log_level ENUM('Low','Middle','High'), logMessageInsert VARCHAR(255)
+)
+
+BEGIN
+
+	INSERT INTO log ( device_fk, `timestamp`, logMessage, `level`, is_acknowledged)
+    VALUE
+    (device_id, timestamp(now()), logMessageInsert, log_level, 0);
+    
 END //
 DELIMITER ;
 

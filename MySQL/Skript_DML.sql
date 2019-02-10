@@ -127,9 +127,9 @@ VALUES
 INSERT INTO Log (logMessage, timestamp, level, is_acknowledged, device_fk)
 VALUES
 ('Loged In',now(),'Low',0,1),
-('Loged Out',now(),'Low'0,,1),
-('Loged In',now(),'Low'0,,2),
-('Virus detected',now(),'High'0,,3)
+('Loged Out',now(),'Low',0,1),
+('Loged In',now(),'Low',0,2),
+('Virus detected',now(),'High',0,3)
 ;
 
 INSERT INTO Abrechnung (kundenkonto_fk, location_fk, device_fk, interface_fk)
