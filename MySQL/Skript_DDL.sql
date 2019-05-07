@@ -119,7 +119,7 @@ interface_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 network_fk INT NOT NULL,
 device_fk INT UNSIGNED NOT NULL,
 ip_adress_v4 VARCHAR(15) NOT NULL,
-mac_adresse VARCHAR(17) NOT NULL,
+mac_adresse VARCHAR(50) NOT NULL,
 isFullDuplex BIT(1) NOT NULL DEFAULT 1,
 bandwith INT NULL,
 is_in_use TINYINT,
@@ -229,11 +229,11 @@ CREATE PROCEDURE LogClear
 BEGIN
 	
 	DELETE FROM v_logentries
-    WHERE _logentreies_id = logentrie_id;
+    WHERE _logentries_id = v_logentries_id;
     
     UPDATE Log
     SET is_acknowledged = 1
-    WHERE log_is = _logentries_id;
+    WHERE log_id = _logentries_id;
 	
 END //
 DELIMITER ;

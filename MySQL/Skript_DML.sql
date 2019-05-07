@@ -85,21 +85,6 @@ VALUES
 (3,1,'2018-06-06','2019-02-12','CiscoR006','ch.scs','Keller'),
 (1,1,'2018-02-01','2020-12-02','Cisco-PRT-032','ch.zbw','Kantine');
 
-INSERT INTO Deviceport (description, device_fk, transportmedium_fk)
-VALUES
-('GigabitEthernet 0/1', 1, 0),
-('FastEtherne 0/1', 2, 1),
-('FastEtherne 0/1', 2, 1),
-('Etherne 0/1', 4, 2),
-('FastEtherne 0/1', 2, 1);
-
-INSERT INTO Interface (interface_id, network_fk, device_fk, ip_adress_v4, mac_adresse, isFullDuplex, bandwith, is_in_use, description)
-VALUES
-(1,3,1,'172.129.1.5','0025:96FF:FE12:3456',1,10000,0,''),
-(2,3,4,'172.129.1.6','0025:96FF:FE12:3457',1,10000,0,''),
-(3,1,5,'10.36.0.253','0025:96FF:FE12:3458',1,10000,0,''),
-(4,5,4,'192.168.128.192','0025:96FF:FE12:3459',1,10000,0,''),
-(5,3,3,'172.129.5.9','0025:96FF:FE12:3455',1,100,0,'');
 
 INSERT INTO Transportmedium (description)
 VALUES
@@ -107,6 +92,14 @@ VALUES
 ('RJ45'),
 ('RJ11'),
 ('COM');
+
+INSERT INTO Deviceport (description, device_fk, transportmedium_fk)
+VALUES
+('GigabitEthernet 0/1', 1, 3),
+('FastEtherne 0/1', 2, 1),
+('FastEtherne 0/1', 2, 1),
+('Etherne 0/1', 3, 2),
+('FastEtherne 0/1', 2, 1);
 
 INSERT INTO operatingsystem (operatingsystem_id, operatingsystemName, model, version)
 VALUES
@@ -116,7 +109,7 @@ VALUES
 (4,'NOOS','RH','0.2.8'),
 (5,'Linux','RedHead','17.3');
 
-INSERT INTO DevicesTypes_has_operatingsystem (deviceTypes_fk, operatingsystem_fk)
+INSERT INTO DeviceType_has_operatingsystem (deviceType_fk, operatingsystem_fk)
 VALUES
 (1,1),
 (2,2),
@@ -131,6 +124,34 @@ VALUES
 ('Loged In',now(),'Low',0,2),
 ('Virus detected',now(),'High',0,3)
 ;
+
+
+INSERT INTO Credentials (credentials_id, benutzername,passwort,snmp)
+VALUES
+(1,'Larissa','1111','snmp1'),
+(2,'Patrick','1111','snmp2'),
+(3,'Francesco','1111','snmp3'),
+(4,'Ronny','1111','snmp4');
+
+INSERT INTO Devices_has_Credentials (Devices_devices_id, credentials_credentials_id)
+VALUES
+(1,1),
+(2,2),
+(3,4),
+(4,3);
+
+INSERT INTO v_logentries(pod, location, hostname, severity, `timestamp`, message)
+VALUES
+("test1", "St. Gallen", "schokoladenweg", 5, now(), "Das ist eine aufwändige Aufgabe"),
+("test2", "Appenzell", "Fählensee", 3, now(), "Gruss aus dem Alpstein");
+
+INSERT INTO Interface (interface_id, network_fk, device_fk, ip_adress_v4, mac_adresse, isFullDuplex, bandwith, is_in_use, description)
+VALUES
+(1,3,1,'172.129.1.5','0025:96FF:FE12:3456',1,10000,0,''),
+(2,3,4,'172.129.1.6','0025:96FF:FE12:3457',1,10000,0,''),
+(3,1,5,'10.36.0.253','0025:96FF:FE12:3458',1,10000,0,''),
+(4,5,4,'192.168.128.192','0025:96FF:FE12:3459',1,10000,0,''),
+(5,3,3,'172.129.5.9','0025:96FF:FE12:3455',1,100,0,'');
 
 INSERT INTO Abrechnung (kundenkonto_fk, location_fk, device_fk, interface_fk)
 VALUES
@@ -154,17 +175,3 @@ VALUES
 ('Bildschirm',150, 1),
 ('AdobeReader',20, 1),
 ('Bürostuhl',10, 1);
-
-INSERT INTO Credentials (credentials_id, benutzername,passwort,snmp)
-VALUES
-(1,'Larissa','1111','snmp1'),
-(2,'Patrick','1111','snmp2'),
-(3,'Francesco','1111','snmp3'),
-(4,'Ronny','1111','snmp4');
-
-INSERT INTO Devices_has_Credentials (Devices_devices_id, credentials_credentials_id)
-VALUES
-(1,1),
-(2,2),
-(3,4),
-(4,3);

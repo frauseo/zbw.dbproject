@@ -9,11 +9,11 @@ CREATE PROCEDURE LogClear
 BEGIN
 	
 	DELETE FROM v_logentries
-    WHERE _logentreies_id = logentrie_id;
+    WHERE _logentries_id = v_logentrie_id;
     
     UPDATE Log
     SET is_acknowledged = 1
-    WHERE log_is = _logentries_id;
+    WHERE log_id = _logentries_id;
 	
 END //
 DELIMITER ;
