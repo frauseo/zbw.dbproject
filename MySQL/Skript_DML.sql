@@ -143,7 +143,8 @@ VALUES
 INSERT INTO v_logentries(pod, location, hostname, severity, `timestamp`, message)
 VALUES
 ("test1", "St. Gallen", "schokoladenweg", 5, now(), "Das ist eine aufwändige Aufgabe"),
-("test2", "Appenzell", "Fählensee", 3, now(), "Gruss aus dem Alpstein");
+("test2", "Appenzell", "Fählensee", 3, now(), "Gruss aus dem Alpstein"),
+("test3", "Abtwil", "Zbw", 3, now(), "Keine Lust mehr auf Schulabende..");
 
 INSERT INTO Interface (interface_id, network_fk, device_fk, ip_adress_v4, mac_adresse, isFullDuplex, bandwith, is_in_use, description)
 VALUES
