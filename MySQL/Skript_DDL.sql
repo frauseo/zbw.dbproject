@@ -243,14 +243,14 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE LogMessageAdd
 (
-	IN device_id INT, log_level ENUM('Low','Middle','High'), logMessageInsert VARCHAR(255)
+	IN i_pod VARCHAR(1000), i_hostname VARCHAR(45), i_severity INT, i_message VARCHAR(1000)
 )
 
 BEGIN
 
-	INSERT INTO log ( device_fk, `timestamp`, logMessage, `level`, is_acknowledged)
+	INSERT INTO v_logentries ( pod, timestamp, hostname, severity, message)
     VALUE
-    (device_id, timestamp(now()), logMessageInsert, log_level, 0);
+    (i_pod, timestamp(now()), i_hostname, i_severity, i_message);
     
 END //
 DELIMITER ;
