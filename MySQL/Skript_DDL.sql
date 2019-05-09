@@ -229,7 +229,7 @@ CREATE PROCEDURE LogClear
 BEGIN
 	
 	DELETE FROM v_logentries
-    WHERE _logentries_id = v_logentries_id;
+    WHERE _logentries_id = id;
     
     UPDATE Log
     SET is_acknowledged = 1
