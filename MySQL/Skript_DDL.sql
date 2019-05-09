@@ -208,7 +208,7 @@ FOREIGN KEY (credentials_credentials_id) REFERENCES Credentials (credentials_id)
 ); 
 
 CREATE TABLE IF NOT EXISTS v_logentries (
-v_logentries_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 pod VARCHAR(1000),
 location VARCHAR(1000),
 hostname VARCHAR(45),
