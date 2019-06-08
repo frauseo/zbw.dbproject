@@ -42,6 +42,7 @@ FOREIGN KEY (kundenkonto_fk) REFERENCES Kundenkonto(kundenkonto_id) ON DELETE CA
 
 CREATE TABLE IF NOT EXISTS Location (
 location_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+parent_location INT UNSIGNED,
 address_fk INT UNSIGNED NOT NULL,
 designation VARCHAR(45) NOT NULL,
 building INT UNSIGNED NOT NULL,

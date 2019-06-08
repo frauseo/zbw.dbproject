@@ -47,11 +47,12 @@ VALUES
 (4,2),
 (5,1);
 
-INSERT INTO location( address_fk, designation, building, room)
+INSERT INTO location( parent_location, address_fk, designation, building, room)
 VALUES
-(1, 'Vertriebszentrum Tabak', 2, 4),
-(2, 'Absteige',5,9),
-(3, 'Consult & Pepper', 6,9);
+(null, 1, 'Vertriebszentrum Tabak', 2, 4),
+(1, 1, 'Logistik', 2, 5),
+(1, 2, 'Administration',1,9),
+(1, 2, 'Buchhaltung', 1,8);
 
 
 INSERT INTO pointofdelivery(customer_person_fk, contact_person_fk, location_fk, designation, timezone, timeZonePositiv, ntpServerIp)
@@ -144,7 +145,11 @@ INSERT INTO v_logentries(pod, location, hostname, severity, `timestamp`, message
 VALUES
 ("test1", "St. Gallen", "schokoladenweg", 5, now(), "Das ist eine aufwändige Aufgabe"),
 ("test2", "Appenzell", "Fählensee", 3, now(), "Gruss aus dem Alpstein"),
-("test3", "Abtwil", "Zbw", 3, now(), "Keine Lust mehr auf Schulabende..");
+("test3", "Abtwil", "Zbw", 3, now(), "Keine Lust mehr auf Schulabende.."),
+("test4", "St. Gallen", "Zbw", 3, now(), "Hallo Gerät"),
+("test5", "Abtwil", "Zbw", 3, now(), "Hallo User"),
+("test6", "St. Gallen", "Zbw", 3, now(), "Hallo Welt"),
+("test7", "St. Gallen", "Zbw", 3, now(), "Hallo Gerät");
 
 INSERT INTO Interface (interface_id, network_fk, device_fk, ip_adress_v4, mac_adresse, isFullDuplex, bandwith, is_in_use, description)
 VALUES
