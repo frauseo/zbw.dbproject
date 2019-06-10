@@ -50,9 +50,18 @@ VALUES
 INSERT INTO location( parent_location, address_fk, designation, building, room)
 VALUES
 (null, 1, 'Vertriebszentrum Tabak', 2, 4),
-(1, 1, 'Logistik', 2, 5),
-(1, 2, 'Administration',1,9),
-(1, 2, 'Buchhaltung', 1,8);
+(1, 2, 'Logistik', 2, 5),
+(1, 3, 'Administration',1,9),
+(1, 4, 'Buchhaltung', 1,8),
+(2, 2, 'Logistik_Büro1', 2,5),
+(2, 2, 'Logistik_Büro2', 2,6),
+(2, 2, 'Logistik_Büro3', 2,7),
+(3, 3, 'Administration_Büro1', 1,1),
+(3, 3, 'Administration_Büro2', 1,2),
+(3, 3, 'Administration_Büro3', 1,3),
+(4, 4, 'Buchhaltung_Büro1', 1,1),
+(4, 4, 'Buchhaltung_Büro1', 1,1)
+;
 
 
 INSERT INTO pointofdelivery(customer_person_fk, contact_person_fk, location_fk, designation, timezone, timeZonePositiv, ntpServerIp)
