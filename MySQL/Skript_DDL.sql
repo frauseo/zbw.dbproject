@@ -33,7 +33,7 @@ CREATE Table IF NOT EXISTS Customer (
 customer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 firstname VARCHAR(45) NOT NULL,
 lastname VARCHAR(45) NOT NULL,
-addressnumber VARCHAR(45) NOT NULL,
+customernumber VARCHAR(45) NOT NULL,
 kundenkonto_fk INT UNSIGNED NOT NULL,
 tel VARCHAR(20),
 eMail VARCHAR(70),

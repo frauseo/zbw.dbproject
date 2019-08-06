@@ -30,9 +30,9 @@ VALUES
 
 INSERT INTO kundenkonto(kundenkonto_id)
 VALUES
-(1),(2),(3),(4),(5),(6),(7),(8);
+(1),(2),(3),(4),(5),(6),(7),(8),(9);
 
-INSERT INTO customer(firstname, lastname, addressnumber, kundenkonto_fk, tel, eMail, url)
+INSERT INTO customer(firstname, lastname, customernumber, kundenkonto_fk, tel, eMail, url)
 VALUES
 ('Nina','Schmid', 'CU00001', 3, '079 666 20 14', 'nina.schmid@test.ch','www.nina.ch'),
 ('Bilbo','Beutlin', 'CU00002', 1, 'Dose mit Schnur', 'bilbo@auenland.xx','https://de.wikipedia.org/wiki/Auenland'),
