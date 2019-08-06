@@ -30,14 +30,15 @@ CREATE Table IF NOT EXISTS Kundenkonto (
 kundenkonto_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT);
 
 CREATE Table IF NOT EXISTS Customer (
-person_fk INT UNSIGNED NOT NULL,
-address_fk INT UNSIGNED NOT NULL,
+customer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+firstname VARCHAR(45) NOT NULL,
+lastname VARCHAR(45) NOT NULL,
+addressnumber VARCHAR(45) NOT NULL,
 kundenkonto_fk INT UNSIGNED NOT NULL,
 tel VARCHAR(20),
-eMail VARCHAR(30),
-url VARCHAR(30),
-FOREIGN KEY (person_fk) REFERENCES Person(Person_id) ON DELETE CASCADE,
-FOREIGN KEY (address_fk) REFERENCES Address(address_id) ON DELETE CASCADE,
+eMail VARCHAR(70),
+url VARCHAR(70),
+`password` VARCHAR(255),
 FOREIGN KEY (kundenkonto_fk) REFERENCES Kundenkonto(kundenkonto_id) ON DELETE CASCADE);
 
 CREATE TABLE IF NOT EXISTS Location (
@@ -59,15 +60,15 @@ FOREIGN KEY (person_fk) REFERENCES Person(person_id)ON DELETE CASCADE
 
 CREATE TABLE IF NOT EXISTS PointOfDelivery (
 pod_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-customer_person_fk INT UNSIGNED NOT NULL,
-contact_person_fk INT UNSIGNED NOT NULL,
+customer_id_fk INT UNSIGNED NOT NULL,
+contact_id_fk INT UNSIGNED NOT NULL,
 location_fk INT UNSIGNED NOT NULL,
 designation VARCHAR(45),
 timezone TIME NOT NULL,
 timeZonePositiv TINYINT NOT NULL,
 ntpServerIp VARCHAR(20),
-FOREIGN KEY (`customer_person_fk`) REFERENCES `customer`(`person_fk`)ON DELETE CASCADE,
-FOREIGN KEY (`contact_person_fk`) REFERENCES `contact`(`contact_id`)ON DELETE CASCADE,
+FOREIGN KEY (`customer_id_fk`) REFERENCES `customer`(`customer_id`)ON DELETE CASCADE,
+FOREIGN KEY (`contact_id_fk`) REFERENCES `contact`(`contact_id`)ON DELETE CASCADE,
 FOREIGN KEY (`location_fk`) REFERENCES `location`(`location_id`) ON DELETE CASCADE
 );
 

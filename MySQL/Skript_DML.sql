@@ -32,12 +32,12 @@ INSERT INTO kundenkonto(kundenkonto_id)
 VALUES
 (1),(2),(3),(4),(5),(6),(7),(8);
 
-INSERT INTO customer(person_fk, address_fk, kundenkonto_fk, tel, eMail, url)
+INSERT INTO customer(firstname, lastname, addressnumber, kundenkonto_fk, tel, eMail, url)
 VALUES
-(1, 2, 3, '079 666 20 14', 'nina.schmid@test.ch','www.nina.ch'),
-(2, 1, 1, 'Dose mit Schnur', 'bilbo@auenland.xx',null),
-(3, 3, 2, '078 878 90 43', 'p.keist@hotmail.com',null),
-(6, 4, 4, '077 777 77 77', 'ronny@wyss.ch',null);
+('Nina','Schmid', 2, 3, '079 666 20 14', 'nina.schmid@test.ch','www.nina.ch'),
+('Bilbo','Beutlin', 1, 1, 'Dose mit Schnur', 'bilbo@auenland.xx','https://de.wikipedia.org/wiki/Auenland'),
+('Max','Muster', 3, 2, '078 878 90 43', 'test@test.ch', null),
+('Patrick','Keist', 4, 4, '077 777 77 77', 'p.keist@hotmail.com','https://www.keist.com');
 
 INSERT INTO contact( person_fk, priority)
 VALUES
@@ -49,22 +49,16 @@ VALUES
 
 INSERT INTO location( parent_location, address_fk, designation, building, room)
 VALUES
-(null, 1, 'Vertriebszentrum Tabak', 2, 4),
-(1, 2, 'Logistik', 2, 5),
-(1, 3, 'Administration',1,9),
-(1, 4, 'Buchhaltung', 1,8),
-(2, 2, 'Logistik_Büro1', 2,5),
-(2, 2, 'Logistik_Büro2', 2,6),
-(2, 2, 'Logistik_Büro3', 2,7),
-(3, 3, 'Administration_Büro1', 1,1),
-(3, 3, 'Administration_Büro2', 1,2),
-(3, 3, 'Administration_Büro3', 1,3),
-(4, 4, 'Buchhaltung_Büro1', 1,1),
-(4, 4, 'Buchhaltung_Büro1', 1,1)
-;
+(0, 1, 'Vertriebszentrum Tabak', 2, 4),
+(1, 1, 'Logistik', 2, 5),
+(2, 2, 'Buchhaltung2', 1,8),
+(1, 2, 'Administration',1,9),
+(1, 2, 'Buchhaltung1', 1,8),
+(2, 2, 'Buchhaltung3', 1,8),
+(6, 2, 'Buchhaltung4', 1,8);
 
 
-INSERT INTO pointofdelivery(customer_person_fk, contact_person_fk, location_fk, designation, timezone, timeZonePositiv, ntpServerIp)
+INSERT INTO pointofdelivery(customer_id_fk, contact_id_fk, location_fk, designation, timezone, timeZonePositiv, ntpServerIp)
 VALUES
 (2,2,1,'Auenland','10:00:00',1, '1.1.1.10'),
 (1,1,3, 'Consult & Pepper Trogen', '01:00:00', 1 , '178.198.222.68'),
