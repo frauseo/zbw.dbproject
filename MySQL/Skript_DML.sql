@@ -34,10 +34,10 @@ VALUES
 
 INSERT INTO customer(firstname, lastname, addressnumber, kundenkonto_fk, tel, eMail, url)
 VALUES
-('Nina','Schmid', 2, 3, '079 666 20 14', 'nina.schmid@test.ch','www.nina.ch'),
-('Bilbo','Beutlin', 1, 1, 'Dose mit Schnur', 'bilbo@auenland.xx','https://de.wikipedia.org/wiki/Auenland'),
-('Max','Muster', 3, 2, '078 878 90 43', 'test@test.ch', null),
-('Patrick','Keist', 4, 4, '077 777 77 77', 'p.keist@hotmail.com','https://www.keist.com');
+('Nina','Schmid', 'CU00001', 3, '079 666 20 14', 'nina.schmid@test.ch','www.nina.ch'),
+('Bilbo','Beutlin', 'CU00002', 1, 'Dose mit Schnur', 'bilbo@auenland.xx','https://de.wikipedia.org/wiki/Auenland'),
+('Max','Muster', 'CU00003', 2, '078 878 90 43', 'test@test.ch', null),
+('Patrick','Keist', 'CU00004', 4, '077 777 77 77', 'p.keist@hotmail.com','https://www.keist.com');
 
 INSERT INTO contact( person_fk, priority)
 VALUES
